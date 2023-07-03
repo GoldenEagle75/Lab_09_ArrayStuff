@@ -18,22 +18,14 @@ public class Main {
             System.out.printf("%s | ", dataPoint);
         }
 
-        for (int dataPoint : dataPoints) {
-            dataSum += dataPoint;
-        }
-
+        dataSum = sum(dataPoints);
         dataAverage = (double) dataSum / dataPoints.length;
         System.out.println();
         System.out.printf("The average of the data points is %s and the sum is %s.%n", dataAverage, dataSum);
 
         int firstInt = SafeInput.getRangedInt(in,"Enter a number", 1,100);
-        int numberOfTimes = 0;
 
-        for (int dataPoint : dataPoints) {
-            if (firstInt == dataPoint) {
-                numberOfTimes += 1;
-            }
-        }
+        int numberOfTimes = occuranceScan(dataPoints, firstInt);
 
         if (numberOfTimes == 1){
             System.out.printf("The value you entered, %s, appeared %s time in the array.%n", firstInt, numberOfTimes);
@@ -44,33 +36,14 @@ public class Main {
 
         int secondInt = SafeInput.getRangedInt(in, "Enter another number", 1,100);
 
-        int dataPos = -1;
-
-        for (int i = 0; i < dataPoints.length; i ++){
-            if (secondInt == dataPoints[i]){
-                dataPos = i;
-                System.out.printf("The value you entered, %s, was found first in position %s.%n%n", secondInt, dataPos);
-                break;
-            }
+        if (contains(dataPoints, secondInt)) {
+            System.out.printf("Your number, %s, is in the array.%n%n", secondInt);
+        }
+        else {
+            System.out.printf("Your number, %s, is not in the array.%n%n", secondInt);
         }
 
-        if (dataPos == -1) {
-            System.out.printf("The value you entered, %s, was not found in the array.%n%n", secondInt);
-        }
-
-        int dataMin = dataPoints[0];
-        int dataMax = dataPoints[0];
-
-        for (int dataPoint : dataPoints) {
-            if (dataMin > dataPoint) {
-                dataMin = dataPoint;
-            }
-            if (dataMax < dataPoint) {
-                dataMax = dataPoint;
-            }
-        }
-
-        System.out.printf("The maximum value in the array is %s and the minimum is %s.%n%n", dataMax,dataMin);
+        System.out.printf("The maximum value in the array is %s and the minimum is %s.%n%n", max(dataPoints),min(dataPoints));
 
 
         System.out.println("Average of dataPoints is: " + getAverage(dataPoints));
@@ -83,5 +56,54 @@ public class Main {
         }
         valAverage = valSum/values.length;
         return valAverage;
+    }
+
+    public static int min(int[] values){
+        int dataMin = values[0];
+
+        for (int value : values) {
+            if (dataMin > value) {
+                dataMin = value;
+            }
+        }
+        return dataMin;
+    }
+    public static int max(int[] values){
+        int dataMax = values[0];
+
+        for (int i = 0; i < values.length; i ++) {
+            if (dataMax < values[i]) {
+                dataMax = values[i];
+            }
+        }
+        return dataMax;
+    }
+
+    public static int occuranceScan(int [] values, int target){
+        int numberOfTimes = 0;
+
+        for (int i = 0; i < values.length; i ++) {
+            if (target == values[i]) {
+                numberOfTimes += 1;
+            }
+        }
+        return numberOfTimes;
+    }
+
+    public static int sum(int values[]){
+        int valSum = 0;
+        for (int i = 0; i < values.length; i++) {
+            valSum += values[i];
+        }
+        return valSum;
+    }
+
+    public static boolean contains(int[] values, int target) {
+        for (int i = 0; i < values.length; i++) {
+            if (target == values[i]) {
+                return true;
+            }
+        }
+        return false;
     }
 }
